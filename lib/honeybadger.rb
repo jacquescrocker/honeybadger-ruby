@@ -118,6 +118,15 @@ module Honeybadger
       send_notice(notice) unless notice.ignore?
     end
 
+    # Public: Wraps a block that captures exceptions to report to Honeybadger
+    def rescue(options = {})
+      begin
+        yield if block_given?
+      rescue => e
+        notify(e, options)
+      end
+    end
+
     def build_lookup_hash_for(exception, options = {})
       notice = build_notice_for(exception, options)
 

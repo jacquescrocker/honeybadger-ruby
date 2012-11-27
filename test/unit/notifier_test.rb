@@ -70,6 +70,20 @@ class NotifierTest < Honeybadger::UnitTest
     assert_sent notice, :exception => exception
   end
 
+  should "send a notice for exceptions raise within a rescue block" do
+    set_public_env
+    exception = build_exception
+    stub_sender!
+    notice = stub_notice!
+
+    Honeybadger.rescue do
+      raise "YO"
+    end
+
+    # TODO: how do I check for this exception?
+    # assert_sent notice, :exception => exception
+  end
+
   should "create and send a notice for a hash" do
     set_public_env
     notice = stub_notice!
